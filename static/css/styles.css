@@ -142,6 +142,8 @@ h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; letter-spacing:
     display: flex;
     flex-direction: column;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08); /* Stronger shadow to highlight panels */
+    min-width: 0; /* CRITICAL FIX: prevents grid items from expanding past screen width */
+    width: 100%;
 }
 
 .panel-header {
@@ -217,7 +219,7 @@ h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; letter-spacing:
 .btn-execute:active { transform: translateY(0); box-shadow: none; }
 
 /* --- COLUMN 2: TABLE --- */
-.table-wrapper { flex: 1; overflow-y: auto; overflow-x: auto; padding: 0; background: var(--bg-panel); width: 100%; }
+.table-wrapper { flex: 1; overflow-y: auto; overflow-x: auto; padding: 0; background: var(--bg-panel); width: 100%; min-width: 0; }
 .cyber-table { width: 100%; border-collapse: collapse; font-family: var(--font-body); font-size: 1rem; letter-spacing: 0.2px; }
 .cyber-table th { 
     position: sticky; top: 0; background: #e5e7eb; 
@@ -365,6 +367,8 @@ h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; letter-spacing:
         flex-direction: column;
         align-items: center;
         text-align: center;
+        padding: 15px; /* Reduce padding to fit mobile */
+        width: 100%;
     }
     
     .sys-title h1 { font-size: 1.3rem; }
@@ -399,6 +403,14 @@ h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; letter-spacing:
     
     .cyber-form > .form-group {
         margin-bottom: 15px;
+    }
+    
+    .panel-header {
+        padding: 15px 15px;
+    }
+    
+    .panel-content {
+        padding: 15px;
     }
     
     .modal-content {
