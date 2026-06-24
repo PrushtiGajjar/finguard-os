@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FinGuard - Enterprise Fraud Command Center</title>
+    
+    <!-- Clean Readable Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&family=Open+Sans:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/styles.css?v=4">
+    
+    <!-- Chart.js for rendering AI analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js" defer></script>
+</head>
+<body class="cyber-theme">
+    
+    <!-- Top Global Header -->
+    <header class="sys-header">
+        <div class="header-left">
+            <div class="logo-shield"></div>
+            <div class="sys-title">
+                <h1>FINGUARD_OS</h1>
+                <span class="sys-subtitle">A.I. THREAT DETECTION & RESPONSE SYSTEM</span>
+            </div>
+        </div>
+        
+        <!-- Live System Stats Ticker -->
+        <div class="sys-stats-ticker">
+            <div class="ticker-item">
+                <span class="ticker-label">API LATENCY:</span>
+                <span class="ticker-value text-cyan" id="stat-latency">12ms</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-label">PROTECTED VOL:</span>
+                <span class="ticker-value text-green" id="stat-vol">$0.00</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-label">THREATS BLOCKED:</span>
+                <span class="ticker-value text-red" id="stat-threats">0</span>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="account-search-input" class="cyber-search-input" placeholder="SEARCH ACC_ID...">
+            </div>
+            <button id="toggle-autopilot" class="btn-cyber pulse-anim">
+                <span class="icon">⚡</span> ENGAGE AUTO-PILOT
+            </button>
+            <div class="status-indicator">
+                <div class="status-dot online" id="api-dot"></div>
+                <span id="api-status-text">SYS_ONLINE</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Grid Layout -->
+    <main class="cyber-grid">
+        
+        <!-- COLUMN 1: MANUAL INJECTION PORTAL -->
+        <section class="panel panel-left">
+            <div class="panel-header">
+                <h2>> MANUAL_INJECT_PORTAL</h2>
+                <div class="decor-line"></div>
+            </div>
+            <div class="panel-content">
+                <p class="section-desc">Override automated monitoring to test specific payload vectors.</p>
+                
+                <form id="tx-form" class="cyber-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>TX_TYPE</label>
+                            <select id="tx-type" required>
+                                <option value="TRANSFER">TRANSFER</option>
+                                <option value="CASH_OUT">CASH_OUT</option>
+                                <option value="PAYMENT" selected>PAYMENT</option>
+                                <option value="CASH_IN">CASH_IN</option>
+                                <option value="DEBIT">DEBIT</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>STEP_ID</label>
+                            <input type="number" id="tx-step" value="12" min="1" max="744" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>AMOUNT_VALUE</label>
+                        <input type="number" id="tx-amount" value="500.00" step="0.01" min="0.01" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>NODE_ORIGIN</label>
+                            <input type="text" id="tx-orig" value="C829102834" required>
+                        </div>
+                        <div class="form-group">
+                            <label>NODE_DEST</label>
+                            <input type="text" id="tx-dest" value="M908234123" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>BAL_ORIG_PRE</label>
+                            <input type="number" id="tx-orig-old" value="1200.00" step="0.01" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>BAL_ORIG_POST</label>
+                            <input type="number" id="tx-orig-new" value="700.00" step="0.01" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>BAL_DEST_PRE</label>
+                            <input type="number" id="tx-dest-old" value="0.00" step="0.01" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>BAL_DEST_POST</label>
+                            <input type="number" id="tx-dest-new" value="0.00" step="0.01" min="0" required>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-templates">
+                        <span class="template-label">LOAD_VECTOR:</span>
+                        <div class="template-buttons">
+                            <button type="button" class="btn-vector-safe" id="load-legit-template">[ SAFE_PAYMENT ]</button>
+                            <button type="button" class="btn-vector-threat" id="load-fraud-template">[ EMPTY_ACC_FRAUD ]</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-execute" id="btn-submit">EXECUTE INJECTION</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- COLUMN 2: LIVE NETWORK STREAM -->
+        <section class="panel panel-center">
+            <div class="panel-header">
+                <h2>> NETWORK_TRAFFIC_STREAM</h2>
+                <div class="decor-line"></div>
+            </div>
+            <div class="table-wrapper">
+                <table id="transactions-table" class="cyber-table">
+                    <thead>
+                        <tr>
+                            <th>TYPE</th>
+                            <th>VOL</th>
+                            <th>ORIGIN -> DESTINATION</th>
+                            <th>A.I._SCORE</th>
+                            <th>FORENSICS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactions-body">
+                        <!-- Populated dynamically via JS -->
+                        <tr class="empty-row">
+                            <td colspan="5">AWAITING NETWORK TRAFFIC...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- COLUMN 3: SYSTEM ANALYTICS -->
+        <section class="panel panel-right">
+            <div class="panel-header">
+                <h2>> THREAT_ANALYTICS</h2>
+                <div class="decor-line"></div>
+            </div>
+            
+            <div class="analytics-content">
+                <!-- Donut Chart -->
+                <div class="chart-box">
+                    <h3>TRAFFIC CLASSIFICATION</h3>
+                    <div class="donut-container">
+                        <canvas id="riskDonutChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Radar Scanner Animation Box -->
+                <div class="radar-box">
+                    <h3>SYSTEM RADAR</h3>
+                    <div class="radar-wrapper">
+                        <div class="radar"></div>
+                        <div class="radar-sweep"></div>
+                        <div class="radar-target" id="radar-target"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for SHAP Explainability Graph -->
+    <div id="explanation-modal" class="cyber-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><span class="text-red">⚠</span> FORENSIC_AUDIT_LOG</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-cyber btn-print" onclick="window.print()">[ PRINT ]</button>
+                    <button class="close-btn">[ X ]</button>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <p class="modal-desc">SHAP TreeExplainer Local Attribution Values</p>
+                
+                <div class="modal-details-grid">
+                    <div class="details-list">
+                        <h3>> AI_DECISION_MATRIX</h3>
+                        <div class="details-item">
+                            <span>THREAT_PROBABILITY:</span>
+                            <strong class="text-red terminal-text" id="modal-fraud-score">99.0%</strong>
+                        </div>
+                        <div class="details-item summary-item">
+                            <span>DIAGNOSTIC:</span>
+                            <p class="explanation-summary-text" id="modal-summary-desc"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>> FEATURE_ATTRIBUTION</h3>
+                        <canvas id="shapChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for Account Dossier -->
+    <div id="account-modal" class="cyber-modal">
+        <div class="modal-content dossier-modal">
+            <div class="modal-header">
+                <h2><span class="text-cyan">⎈</span> ACCOUNT_DOSSIER</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-cyber btn-print" onclick="window.print()">[ PRINT ]</button>
+                    <button class="close-btn" id="close-account-modal">[ X ]</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-details-grid">
+                    <div class="details-list glass-panel">
+                        <h3>> PROFILE_DATA</h3>
+                        <div class="details-item"><span>ACC_ID:</span><strong id="dossier-id" class="text-cyan"></strong></div>
+                        <div class="details-item"><span>NAME:</span><strong id="dossier-name"></strong></div>
+                        <div class="details-item"><span>STATUS:</span><strong id="dossier-status"></strong></div>
+                        <div class="details-item"><span>BALANCE:</span><strong id="dossier-balance" class="text-green"></strong></div>
+                        <div class="details-item"><span>RISK_SCORE:</span><strong id="dossier-risk"></strong></div>
+                    </div>
+                    <div class="table-wrapper glass-panel">
+                        <h3>> TRANSACTION_HISTORY</h3>
+                        <table class="cyber-table" id="dossier-table">
+                            <thead>
+                                <tr><th>DATE</th><th>TYPE</th><th>AMOUNT</th><th>ORIGIN -> DEST</th><th>STATUS</th></tr>
+                            </thead>
+                            <tbody id="dossier-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Micro-Alert System -->
+    <div id="toast-container" class="cyber-toasts"></div>
+</body>
+</html>
