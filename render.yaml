@@ -3,10 +3,6 @@ services:
     name: finguard-os-live-node-99
     env: docker
     plan: free
-    disk:
-      name: finguard-data
-      mountPath: /app/database
-      sizeGB: 1
     envVars:
       - key: PORT
         value: 8000
