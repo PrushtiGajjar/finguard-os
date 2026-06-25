@@ -29,6 +29,7 @@ body.cyber-theme {
     color: var(--text-main);
     font-family: var(--font-body);
     min-height: 100vh;
+    min-width: 1100px; /* Forces horizontal scrolling on mobile instead of zooming out */
     display: flex;
     flex-direction: column;
     line-height: 1.6;
@@ -54,14 +55,14 @@ h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; letter-spacing:
 }
 
 .header-left { display: flex; align-items: center; gap: 15px; }
-.sys-title h1 { color: var(--primary-color); font-size: 1.6rem; margin: 0; text-transform: uppercase; letter-spacing: 1.5px; }
-.sys-subtitle { font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-body); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.sys-title h1 { color: var(--primary-color); font-size: 1.3rem; margin: 0; text-transform: uppercase; letter-spacing: 1.5px; }
+.sys-subtitle { font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-body); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
 .sys-stats-ticker {
     display: flex;
     gap: 25px;
     font-family: var(--font-heading);
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     background: transparent;
     padding: 5px 10px;
     border-radius: 0;
