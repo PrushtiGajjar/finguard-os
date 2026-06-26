@@ -248,7 +248,7 @@ function renderTransactionsTable() {
         tr.innerHTML = `
             <td>${tx.type}</td>
             <td>$${tx.amount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
-            <td>${tx.nameOrig} &rarr; ${tx.nameDest}</td>
+            <td><a href="#" onclick="fetchAccountDossier('${tx.nameOrig}'); return false;" class="account-link">${tx.nameOrig}</a> &rarr; <a href="#" onclick="fetchAccountDossier('${tx.nameDest}'); return false;" class="account-link">${tx.nameDest}</a></td>
             <td class="${riskColorClass}">${riskPercent}%</td>
             <td>
                 ${tx.isFraud 

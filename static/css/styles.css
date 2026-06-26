@@ -261,7 +261,9 @@ h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; letter-spacing:
 /* Row highlights */
 .cyber-table tr { transition: background 0.2s; }
 .cyber-table tr:hover { background: var(--bg-main); }
-.row-fraud { background: #fee2e2; border-left: 4px solid var(--red-alert); }
+.row-fraud { background: rgba(255, 0, 60, 0.1); border-left: 2px solid var(--red-alert); }
+.account-link { color: var(--cyan-glow); text-decoration: none; border-bottom: 1px dashed var(--cyan-glow); transition: all 0.2s; }
+.account-link:hover { color: white; background: rgba(0, 255, 204, 0.2); }
 .row-fraud td { color: var(--red-alert); }
 .row-fraud:hover { background: #fecaca; }
 .row-new { animation: flashRowLight 1.5s ease-out; }
