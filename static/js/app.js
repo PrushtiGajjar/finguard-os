@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Account Dossier Modal
     const accountModal = document.getElementById("account-modal");
     document.getElementById("close-account-modal").addEventListener("click", () => accountModal.style.display = "none");
+    document.getElementById("btn-freeze-account").addEventListener("click", freezeAccount);
     
     window.addEventListener("click", (e) => { 
         if (e.target === modal) modal.style.display = "none"; 
@@ -343,11 +344,16 @@ function renderShapChart(explanations) {
     });
 }
 
-function triggerToast(amount) {
+function triggerToast(amountOrMessage, isSms = false) {
     const container = document.getElementById("toast-container");
     const toast = document.createElement("div");
     toast.className = "toast";
-    toast.innerHTML = `<strong>THREAT INTERCEPTED</strong> [$${amount.toLocaleString()}]`;
+    if (isSms) {
+        toast.style.borderLeftColor = "var(--primary-color)";
+        toast.innerHTML = `<strong style="color: var(--primary-color);">📱 SMS DISPATCHED</strong><br/>${amountOrMessage}`;
+    } else {
+        toast.innerHTML = `<strong>THREAT INTERCEPTED</strong> [$${amountOrMessage.toLocaleString()}]`;
+    }
     container.appendChild(toast);
     setTimeout(() => { toast.remove(); }, 4000);
 }
@@ -378,8 +384,20 @@ async function fetchAccountDossier(accountId) {
         document.getElementById("dossier-id").textContent = data.account_id;
         document.getElementById("dossier-name").textContent = data.customer_name;
         document.getElementById("dossier-status").textContent = data.status.toUpperCase();
+        document.getElementById("dossier-status").className = "";
         document.getElementById("dossier-balance").textContent = `$${data.current_balance.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
         document.getElementById("dossier-risk").textContent = `${(data.risk_score * 100).toFixed(1)}%`;
+        
+        // Reset Freeze Button
+        const freezeBtn = document.getElementById("btn-freeze-account");
+        if (data.status.toUpperCase() === "LOCKED_BY_ADMIN" || data.status.toUpperCase() === "FROZEN") {
+            freezeBtn.disabled = true;
+            freezeBtn.textContent = "[ ACCOUNT FROZEN ]";
+            document.getElementById("dossier-status").className = "text-red";
+        } else {
+            freezeBtn.disabled = false;
+            freezeBtn.textContent = "[ ⚠ FREEZE ACCOUNT ]";
+        }
         
         // Risk styling
         if (data.risk_score > 0.8) {
@@ -423,5 +441,21 @@ async function fetchAccountDossier(accountId) {
     } finally {
         searchInput.disabled = false;
     }
+}
+
+function freezeAccount() {
+    const statusEl = document.getElementById("dossier-status");
+    const btn = document.getElementById("btn-freeze-account");
+    const accId = document.getElementById("dossier-id").textContent;
+    
+    // Update UI
+    statusEl.textContent = "LOCKED_BY_ADMIN";
+    statusEl.className = "text-red glitch-text";
+    
+    btn.disabled = true;
+    btn.textContent = "[ ACCOUNT FROZEN ]";
+    
+    // Simulate SMS dispatch
+    triggerToast(`Lock alert sent to customer device for ${accId}`, true);
 }
 
